@@ -7,13 +7,51 @@ output:
 
 data import
 ```{r}
-rel_file
-hep_file
+
+religions.data <- read.csv(file="data/religion.csv", header=TRUE, sep=",")
+happiness.data <- read.csv(file="data/happiness.csv", header=TRUE, sep=",")
+
+head(religions.data)
+head(happiness.data)
+
 ```
 
 
 data ploting
 ```{r}
+
+religion = religions.data$christianity_percent
+
+protestantism.value =  sum(religion * religions.data$population * happiness.data$happiness_score) / sum(religions.data$population * religion)
+
+# religions.data$protestant_percent
+
+protestantism.num.of.people = religion * religions.data$population
+protestantism.people.score = happiness.data$happiness_score
+
+# protestantism.num.of.people
+# protestantism.people.score
+
+print(protestantism.value)
+
+plot(protestantism.people.score, protestantism.num.of.people)
+
+f = function(value, count, arr) {
+  for (i in seq(count)) {
+    arr = c(arr, value)
+    
+  }
+  arr 
+}
+
+arr = c()
+for (i in )
+
+hist(f())
+
+
+
+
 ```
 
 
