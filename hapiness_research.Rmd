@@ -20,34 +20,44 @@ head(happiness.data)
 data ploting
 ```{r}
 
-religion = religions.data$christianity_percent
+get_hist_of_religion = function(religion) {
+  protestantism.value =  sum(religion * religions.data$population * happiness.data$happiness_score) / sum(religions.data$population * religion)
 
-protestantism.value =  sum(religion * religions.data$population * happiness.data$happiness_score) / sum(religions.data$population * religion)
+  # religions.data$protestant_percent
 
-# religions.data$protestant_percent
+  protestantism.num.of.people = religion * religions.data$population
+  protestantism.people.score = happiness.data$happiness_score
 
-protestantism.num.of.people = religion * religions.data$population
-protestantism.people.score = happiness.data$happiness_score
+  # protestantism.num.of.people
+  # protestantism.people.score
 
-# protestantism.num.of.people
-# protestantism.people.score
+  print(protestantism.value)
 
-print(protestantism.value)
+  plot(protestantism.people.score, protestantism.num.of.people)
 
-plot(protestantism.people.score, protestantism.num.of.people)
-
-f = function(value, count, arr) {
-  for (i in seq(count)) {
-    arr = c(arr, value)
+  f = function(value, count, arr) {
+    for (i in seq(count)) {
+      arr = c(arr, value)
     
+    }
+    arr 
   }
-  arr 
+
+  arr = c()
+  for (i in protestantism.people.score) {
+    for (j in protestantism.num.of.people) {
+      arr = c(arr, i)
+    }
+  }
+  
+  hist(arr)
 }
 
-arr = c()
-for (i in )
+# religion = religions.data$noreligion_percent
+get_hist_of_religion(religions.data$noreligion_percent)
 
-hist(f())
+get_hist_of_religion(religions.data$christianity_percent)
+
 
 
 
