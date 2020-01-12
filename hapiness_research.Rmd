@@ -14,6 +14,8 @@ happiness.data <- read.csv(file="data/happiness.csv", header=TRUE, sep=",")
 head(religions.data)
 head(happiness.data)
 
+library("fitdistrplus")
+
 ```
 
 
@@ -21,48 +23,93 @@ data ploting
 ```{r}
 
 get_hist_of_religion = function(religion) {
-  protestantism.value =  sum(religion * religions.data$population * happiness.data$happiness_score) / sum(religions.data$population * religion)
+  
+  k = 100000
+  
+  religion.value =  sum(religion * religions.data$population * happiness.data$happiness_score) / sum(religions.data$population * religion)
 
   # religions.data$protestant_percent
 
-  protestantism.num.of.people = religion * religions.data$population
-  protestantism.people.score = happiness.data$happiness_score
+  religion.num.of.people = religion * religions.data$population
+  religion.people.score = happiness.data$happiness_score
 
   # protestantism.num.of.people
   # protestantism.people.score
-
-  print(protestantism.value)
-
-  plot(protestantism.people.score, protestantism.num.of.people)
-
-  f = function(value, count, arr) {
-    for (i in seq(count)) {
-      arr = c(arr, value)
-    
-    }
-    arr 
-  }
-
-  arr = c()
-  for (i in protestantism.people.score) {
-    for (j in protestantism.num.of.people) {
-      arr = c(arr, i)
-    }
-  }
   
-  hist(arr)
+  print(sum(religion.num.of.people))
+  
+  print(religion.value)
+
+  plot(religion.people.score, religion.num.of.people)
+  
+  #f = function(value, count, arr) {
+  #  for (i in seq(count)) {
+  #    arr = c(arr, value)
+  #  
+  #  }
+  #  arr 
+  #}
+  
+  # print(religion.people.score[1])
+  # print(religion.people.score)
+  # print(religion.num.of.people)
+  
+  arr = c()
+
+  for (i in 1:length(religion.people.score)) {
+    # for (j in 1:religion.num.of.people[i]) {
+    # print(i)
+    # arr = c(arr, seq(religion.people.score[i], religion.people.score[i], length.out = religion.num.of.people[i]/1000))
+    arr = c(arr, rnorm(religion.num.of.people[i]/k, mean = religion.people.score[i], sd = happiness.data$standard_error[i]))
+  }
+  # print(arr)
+  
+  print(length(arr))
+  hist(arr, col  = 10, breaks=96)
+  x = seq(3, 8, length.out = 200)
+  lines(x,  dnorm(x, mean = mean(arr), sd = sd(arr))*max(religion.num.of.people)/k )
+  
+  descdist(arr)
 }
 
 # religion = religions.data$noreligion_percent
-get_hist_of_religion(religions.data$noreligion_percent)
+get_hist_of_religion(religions.data$buddhism_percent)
 
-get_hist_of_religion(religions.data$christianity_percent)
-
+# seq(1, 1, length.out = 5)
 
 
 
 
 ```
 
+```{r}
+
+model = lm(happiness.data$happiness_rank ~ religions.data$christianity_percent + religions.data$judaism_percent + religions.data$islam_percent + religions.data$buddhism_percent + religions.data$zoroastrianism_percent + religions.data$hinduism_percent + religions.data$bahaâ..i_percent + religions.data$taoism_percent + religions.data$jainism_percent + religions.data$confucianism_percent + religions.data$syncretism_percent + religions.data$animism_percent + religions.data$noreligion_percent + religions.data$otherreligion_percent
+)
+
+summary(model)
+
+plot(model)
+```
+
+```{r}
+
+model2 = lm(happiness.data$happiness_rank ~ religions.data$christianity_percent + religions.data$judaism_percent + religions.data$islam_percent + religions.data$buddhism_percent + religions.data$noreligion_percent
+)
+
+summary(model2)
+
+plot(model2)
+```
+
+```{r}
+
+model = lm(happiness.data$happiness_rank ~ religions.data$protestant_percent + religions.data$romancatholic_percent + religions.data$easternorthodox_percent + religions.data$anglican_percent + religions.data$otherchristianity_percent + religions.data$orthodox_percent + religions.data$conservative_percent + religions.data$reform_percent + religions.data$otherjudaism_percent + religions.data$sunni_percent + religions.data$shiâ..a_percent + religions.data$ibadhi_percent + religions.data$nationofislam_percent + religions.data$alawite_percent + religions.data$ahmadiyya_percent + religions.data$otherislam_percent + religions.data$mahayana_percent + religions.data$theravada_percent + religions.data$otherbuddhism_percent + religions.data$zoroastrianism_percent + religions.data$hinduism_percent + religions.data$bahaâ..i_percent + religions.data$taoism_percent + religions.data$jainism_percent + religions.data$confucianism_percent + religions.data$syncretism_percent + religions.data$animism_percent + religions.data$noreligion_percent + religions.data$otherreligion_percent
+)
+
+summary(model)
+
+plot(model)
+```
 
 conclusions
