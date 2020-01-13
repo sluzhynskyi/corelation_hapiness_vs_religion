@@ -65,18 +65,28 @@ get_hist_of_religion = function(religion) {
   # print(arr)
   
   print(length(arr))
-  hist(arr, col  = 10, breaks=96)
+  hist(arr, col  = 10, breaks=48)
   x = seq(3, 8, length.out = 200)
   lines(x,  dnorm(x, mean = mean(arr), sd = sd(arr))*max(religion.num.of.people)/k )
   
   descdist(arr)
+  
+  fit.unif = fitdistr(arr, "norm", method="mme")
+  
+  plot(fit.unif)
 }
 
 # religion = religions.data$noreligion_percent
-get_hist_of_religion(religions.data$buddhism_percent)
+get_hist_of_religion(religions.data$christianity_percent)
 
 # seq(1, 1, length.out = 5)
 
+
+
+
+```
+
+```{r}
 
 
 
@@ -112,4 +122,11 @@ summary(model)
 plot(model)
 ```
 
+```{r}
+model3 = lm(happiness.data$happiness_rank ~ religions.data$christianity_percent)
+
+summary(model3)
+
+plot(model3)
+```
 conclusions
